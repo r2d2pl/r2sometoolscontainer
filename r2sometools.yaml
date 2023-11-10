@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: r2sometools
+  labels:
+    app: r2sometool
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: r2sometool
+  template:
+    metadata:
+      labels:
+        app: r2sometool
+    spec:
+      containers:
+      #- name: nginx
+      #  image: nginx:1.14.2
+      #  ports:
+      #  - containerPort: 80
+      - name: r2sometoolcontainer
+        #image: gcr.io/google_containers/busybox
+        #image: ghcr.io/mendhak/http-https-echo:30
+        #image: alpine
+        #image: oliverisaac/alpine-nettools
+        image: curlimages/curl:latest
+        #image: centos:7
+        #image: docker.io/centos:7
+        imagePullPolicy: IfNotPresent
+        command: [ "sleep" , "3600"  ]
+        resources:
+          limits:
+            cpu: 10m
+            memory: 20Mi
+          requests:
+            cpu: 10m
+            memory: 20Mi
+      restartPolicy: Always
+      automountServiceAccountToken: false
